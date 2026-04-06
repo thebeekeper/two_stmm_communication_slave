@@ -105,6 +105,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_UART_Receive_IT(&huart1, &rxData, 1);
 
   /* USER CODE END 2 */
 
@@ -117,8 +118,10 @@ int main(void)
       dataReadyFlag = 0;
 
       // Print a message via the built-in USART Peripheral (USART2)
-      // int len = sprintf(msg, "Transmitted int: %c\r\n", rxData);
-      // HAL_UART_Transmit(&huart2, (uint8_t*)msg, len, 100);
+      int len = sprintf(msg, "Received Char: %u\r\n", rxData);
+      HAL_UART_Transmit(&huart2, (uint8_t*)msg, len, 100);
+
+      // Blink LED to indicate trramission
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
       HAL_Delay(200);
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
